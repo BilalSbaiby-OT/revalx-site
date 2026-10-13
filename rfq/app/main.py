@@ -128,7 +128,7 @@ async def create_rfq(request: Request):
 
 async def _handle(request, form, key, ip):
     # Honeypot: pretend success, store nothing that triggers mail or Notion.
-    if form.get("website_url") or form.get("hp"):
+    if form.get("website") or form.get("website_url") or form.get("hp"):
         c = db.connect()
         c.execute("INSERT INTO spam_log(at, reason) VALUES(?, 'honeypot')", (int(time.time()),))
         c.close()

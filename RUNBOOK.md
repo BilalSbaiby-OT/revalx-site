@@ -15,7 +15,7 @@ after the commit, with retry and backoff. A downstream failure never loses or un
 | `429` + `Retry-After` | per-IP limit (8 per 10 min) |
 | `503` / `5xx` | not stored. Client retries with the same key |
 
-Fields: required `name company email country need`; optional `valve_type(ball|butterfly|gate|check|unsure) size quantity media pressure temperature materials connection application delivery_date destination phone`; `lang(en|de|es|fr)`; honeypot field `website_url` (must stay empty and hidden); `cf-turnstile-response`; `files` (repeat the part, max 10, 20 MB each; PDF, DWG, DXF, STEP/STP, JPG, PNG).
+Fields: required `name company email country need`; optional `valve_type(ball|butterfly|gate|check|unsure) size quantity media pressure temperature materials connection application delivery_date destination phone`; `lang(en|de|es|fr)`; honeypot field `website` (alias `website_url` also accepted; must stay empty and hidden); `cf-turnstile-response`; `files[]` (any part name carrying a filename is accepted; repeat the part, max 10, 20 MB each; PDF, DWG, DXF, STEP/STP, JPG, PNG).
 A filled honeypot gets a fake 201 and nothing is stored or sent.
 
 ## Files
