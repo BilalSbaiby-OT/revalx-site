@@ -1,0 +1,38 @@
+# Preview server. Basic auth everywhere except /healthz. noindex on every response.
+server {
+  listen 80;
+  root /usr/share/nginx/html;
+  index index.html;
+  error_page 404 /404.html;
+  client_max_body_size 210m;
+  gzip on; gzip_types text/css application/javascript image/svg+xml text/plain;
+
+  add_header X-Robots-Tag "noindex, nofollow" always;
+  add_header X-Content-Type-Options nosniff always;
+  add_header Referrer-Policy strict-origin-when-cross-origin always;
+  add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-PtdI6/36DhPdMEgjNWV5ExIEqFovVcjUHPeOyApfBhs=' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'self'; form-action 'self'; frame-ancestors 'none'" always;
+
+  auth_basic "REVALX preview";
+  auth_basic_user_file /etc/nginx/.htpasswd;
+
+  location = /healthz { auth_basic off; access_log off; default_type text/plain; return 200 "ok\n"; }
+
+  resolver 127.0.0.11 valid=10s ipv6=off;
+  location /api/ {
+    set $rfq_up "${RFQ_UPSTREAM}";
+    proxy_pass $rfq_up;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
+    proxy_request_buffering on;
+    proxy_read_timeout 120s;
+    # the browser Authorization header is the preview basic auth; do not forward it to the API
+    proxy_set_header Authorization "";
+    add_header X-Robots-Tag "noindex, nofollow" always;
+  }
+
+  location / { try_files $uri $uri/index.html =404; }
+  location /assets/ { expires 1h; add_header Cache-Control "public"; add_header X-Robots-Tag "noindex, nofollow" always; }
+}
