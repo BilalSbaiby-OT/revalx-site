@@ -1,5 +1,9 @@
 {
-  "meta": { "lang": "en", "name": "English", "dir": "ltr" },
+  "meta": {
+    "lang": "en",
+    "name": "English",
+    "dir": "ltr"
+  },
   "brand": "REVALX",
   "tagline": "Industrial valve sourcing and supply",
   "preview_banner": "Private preview. Structure and design review only. Items marked [pending approval] are placeholders that need sign-off before launch.",
@@ -104,9 +108,18 @@
       "h1": "Ball valves",
       "lead": "Quarter-turn valves used for on/off isolation of a line.",
       "apps_h": "Typical applications [pending approval]",
-      "apps": ["Isolation on process and utility lines", "Water and wastewater service", "General industrial and MRO supply"],
+      "apps": ["Isolation on process and utility lines", "Water and wastewater service", "Compressed air and gas distribution", "Heating, cooling and HVAC circuits", "Fuel, oil and chemical lines, where the materials suit the medium", "Isolation on pump skids and packaged equipment", "General industrial and MRO supply"],
       "consider_h": "Configuration points to consider [pending approval]",
-      "consider": ["Full bore or reduced bore", "Body and seat materials for the medium", "Connection type: flanged, threaded or welded", "Manual, gear or actuated operation"]
+      "consider": ["Full bore or reduced bore", "Floating or trunnion design, which usually follows size and pressure class", "Body and seat materials for the medium and temperature", "Pressure class (PN or Class) and temperature range", "Connection type and standard: flanged, threaded or welded", "Manual, gear or actuated operation, and the actuator mounting needed", "Special requirements such as fire-safe design or cleaning for the service, if your specification asks for them"],
+      "how": "A ball valve closes with a drilled ball that turns a quarter turn inside the body. With the bore lined up with the pipe, the medium passes straight through. Turned 90 degrees, the solid side of the ball blocks the line. Ball valves are mainly used for on/off isolation rather than throttling.",
+      "variants": [
+        ["Floating ball", "The ball is held by the seats and moves slightly under line pressure to seal. Common in smaller sizes and moderate pressure classes."],
+        ["Trunnion-mounted ball", "The ball is supported by a trunnion top and bottom, which lowers operating torque. Commonly used for larger sizes and higher pressure classes."],
+        ["Full bore and reduced bore", "Full bore matches the pipe diameter and keeps pressure loss low. Reduced bore is smaller and more compact."],
+        ["Body construction", "One-piece, two-piece or three-piece bodies. This affects how the valve is assembled, serviced and welded in."],
+        ["End connections", "Flanged, threaded, welded or socket ends, depending on the line and the standard in use."]
+      ],
+      "standards": "Often referenced for ball valves: API 6D, API 608, ISO 17292, ASME B16.34 ratings, ISO 5211 actuator mounting, and EN 1092 or ASME B16.5 flanges."
     },
     "butterfly": {
       "title": "Butterfly valves",
@@ -114,9 +127,17 @@
       "h1": "Butterfly valves",
       "lead": "Quarter-turn valves with a disc in the flow path, commonly used on larger-diameter lines.",
       "apps_h": "Typical applications [pending approval]",
-      "apps": ["Large-diameter water and wastewater lines", "Cooling and heating circuits", "Flow isolation and throttling where suited"],
+      "apps": ["Large-diameter water and wastewater lines", "Cooling and heating circuits", "Water treatment and desalination plants", "Pump station and intake isolation", "Cooling circuits in power and process plants", "Bulk powder and granule handling, in suitable designs", "Flow isolation and throttling where suited"],
       "consider_h": "Configuration points to consider [pending approval]",
-      "consider": ["Wafer, lug or flanged body", "Seat and disc materials for the medium", "Operating pressure and temperature", "Manual, gear or actuated operation"]
+      "consider": ["Concentric, double offset or triple offset design", "Wafer, lug or flanged body", "Seat and disc materials for the medium", "Operating and differential pressure, and temperature", "Shut-off tightness required, for example a leakage class", "Dead-end service, which needs a suitable lug or flanged design", "Face-to-face length and flange drilling to match the existing line", "Manual, gear or actuated operation, and the actuator mounting needed"],
+      "how": "A disc on a stem sits in the middle of the flow path and turns a quarter turn. Parallel to the flow, the valve is open. Across the flow, it is closed. The body is short and light compared with other valve types of the same diameter, which is why butterfly valves are common on larger lines.",
+      "variants": [
+        ["Concentric (resilient seated)", "The stem runs through the centre of the disc and an elastomer liner seals the disc. Commonly used for water, HVAC and other low-pressure, moderate-temperature service."],
+        ["Double offset (high performance)", "The stem is offset from the disc centre and from the seat plane, so the disc lifts away from the seat as it opens. Less seat wear and a higher pressure and temperature range than concentric."],
+        ["Triple offset", "A third offset in the seat geometry gives a metal-to-metal seal with almost no rubbing. Used for demanding temperature, pressure or fire-safe service."],
+        ["Wafer, lug and flanged bodies", "Wafer sits between two flanges. Lug has threaded lugs for bolting and can allow dead-end service where designed for it. Flanged has its own flanges."]
+      ],
+      "standards": "Often referenced for butterfly valves: API 609, EN 593, ISO 5752 or EN 558 face-to-face lengths, EN 1092 or ASME B16.5 flanges, and ISO 5211 actuator mounting."
     },
     "gate": {
       "title": "Gate valves",
@@ -124,9 +145,19 @@
       "h1": "Gate valves",
       "lead": "Linear-motion valves used for straight-through flow isolation, normally fully open or fully closed.",
       "apps_h": "Typical applications [pending approval]",
-      "apps": ["Isolation on water, steam and process lines", "Industrial plant and utility networks", "Maintenance and replacement supply"],
+      "apps": ["Isolation on water distribution lines", "Steam and condensate lines", "Industrial plant and utility networks", "Buried and underground water mains", "Process and refinery lines, subject to technical review", "Power plant and boiler systems", "Wastewater and slurry lines, using knife gate designs", "Maintenance and replacement supply"],
       "consider_h": "Configuration points to consider [pending approval]",
-      "consider": ["Rising or non-rising stem", "Wedge and body materials", "Pressure class and end connections", "Operation: handwheel, gear or actuated"]
+      "consider": ["Rising or non-rising stem, and the headroom available", "Wedge type and seat type", "Body, wedge and trim materials for the medium", "Pressure class (PN or Class) and temperature range", "Bonnet type", "End connections and the flange standard", "Face-to-face length to match the existing line", "Operation: handwheel, gear or actuated"],
+      "how": "A gate or wedge moves up and down across the flow, driven by a stem. Fully raised, the flow passes through an unobstructed opening. Fully lowered, the gate seals the line. Gate valves are meant to be fully open or fully closed and are not normally used to regulate flow.",
+      "variants": [
+        ["Rising stem (OS&Y)", "The stem rises with the gate, so the stem position shows whether the valve is open or closed. Needs headroom above the valve."],
+        ["Non-rising stem", "The stem turns in the gate without moving up. Lower overall height, so it suits tight spaces and buried installations."],
+        ["Wedge designs", "Solid, flexible or split wedge. The choice affects sealing, thermal behaviour and suitability for the medium."],
+        ["Resilient seated and metal seated", "Resilient seats are common on water. Metal seats are common on steam, oil and higher temperatures."],
+        ["Bonnet and body", "Bolted, pressure-seal or welded bonnets. Cast iron, ductile iron, cast steel, stainless steel and bronze bodies, depending on the service."],
+        ["Knife gate", "A thin blade cuts through thick media such as slurries and pulp. Related to gate valves but a different design."]
+      ],
+      "standards": "Often referenced for gate valves: API 600, API 602, EN 1171, DIN 3352, ASME B16.34 ratings, ASME B16.10 or EN 558 face-to-face lengths, and EN 1092 or ASME B16.5 flanges."
     },
     "check": {
       "title": "Check valves",
@@ -134,9 +165,18 @@
       "h1": "Check valves",
       "lead": "Valves that allow flow in one direction and prevent backflow.",
       "apps_h": "Typical applications [pending approval]",
-      "apps": ["Pump discharge lines", "Protection against reverse flow", "Water, wastewater and industrial circuits"],
+      "apps": ["Pump discharge lines", "Protection against reverse flow", "Water, wastewater and industrial circuits", "Boiler feed and steam lines", "Compressor discharge lines", "Heating, cooling and HVAC circuits", "Fuel and fluid transfer lines", "Sewage and sludge lines, using suitable designs"],
       "consider_h": "Configuration points to consider [pending approval]",
-      "consider": ["Swing, lift or wafer design", "Installation orientation", "Body and seal materials for the medium", "Pressure rating and connection type"]
+      "consider": ["Swing, dual-plate, lift or axial design", "Installation orientation and the direction of flow", "Minimum flow needed to open the valve fully", "Opening pressure and spring requirements", "Closing behaviour, including water hammer risk on pump lines", "Body and seal materials for the medium", "Pressure rating and temperature range", "Connection type: wafer, flanged or threaded"],
+      "how": "A check valve opens by itself when the medium flows forward and closes when the flow reverses. It needs no handwheel or actuator. The disc, plate or ball is moved by the flow, and often assisted by a spring or by gravity.",
+      "variants": [
+        ["Swing check", "A hinged disc swings open with the flow. Low pressure loss. Usually installed horizontally, or vertically with upward flow."],
+        ["Dual-plate (wafer) check", "Two spring-loaded half plates between flanges. Compact and light, and fast to close."],
+        ["Lift check", "A disc or piston lifts off its seat, guided by the body. Used on higher pressures and steam. Installed in the orientation the design allows."],
+        ["Axial (nozzle) check", "A spring-assisted disc on the flow axis with a short closing stroke. Used where slam on closure is a concern."],
+        ["Ball check", "A ball moves in a cage. Simple, and suited to viscous or dirty media in the right design."]
+      ],
+      "standards": "Often referenced for check valves: API 594, API 6D, BS 1868, EN 12334, EN 558 face-to-face lengths, ASME B16.34 ratings, and EN 1092 or ASME B16.5 flanges."
     },
     "product_common": {
       "need_h": "Details that help us quote",
@@ -151,7 +191,11 @@
         ["Documents", "Datasheet, drawing or specification, if you have one"]
       ],
       "disclaimer": "Product information is general and does not replace engineering approval for your application.",
-      "all_h": "Other valve types"
+      "all_h": "Other valve types",
+      "how_h": "How it works",
+      "variants_h": "Main variants",
+      "std_h": "Standards buyers often specify",
+      "std_ask": "Tell us which apply to your requirement. Listing a standard here does not mean any particular product meets it."
     },
     "technical": {
       "title": "Technical Supply",
@@ -174,7 +218,23 @@
       "notes_h": "What happens to this information",
       "notes_p": "We check your details for completeness, ask for what is missing, and confirm that a credible supply option exists. Documents are reviewed against the actual product before any offer.",
       "limits_h": "What this guide is not",
-      "limits_p": "It does not provide automatic technical recommendations or engineering approval. Suitability is confirmed against your actual application and requirements."
+      "limits_p": "It does not provide automatic technical recommendations or engineering approval. Suitability is confirmed against your actual application and requirements.",
+      "nodata_h": "No datasheet yet?",
+      "nodata_p": "Describe what the valve must do, where it sits in the line, and what flows through it. Add a photo of the old valve or its nameplate if you are replacing one. We ask follow-up questions for anything missing.",
+      "terms_h": "Common terms",
+      "terms_rows": [
+        ["DN", "Nominal diameter in millimetres, for example DN100."],
+        ["PN", "Nominal pressure rating in bar for European flanges, for example PN16."],
+        ["Class", "Pressure class on the ASME scale, for example Class 150 or 300."],
+        ["Face-to-face", "Length of the valve body between its connection faces. It must match the line."],
+        ["Bore", "The flow opening. Full bore equals the pipe diameter, reduced bore is smaller."],
+        ["Wafer, lug, flanged", "Body styles for fitting between or onto pipe flanges."],
+        ["Seat", "The sealing surface. Soft (elastomer or polymer) or metal."],
+        ["Actuated", "Operated by a pneumatic, electric or hydraulic actuator instead of a handwheel or lever."]
+      ],
+      "checklist_h": "Before you send",
+      "checklist": ["The valve type, or what it must do if you are not sure", "Size and quantity", "The medium, with working pressure and temperature", "Connection type and flange standard, if known", "Any standards, datasheet or drawing that apply", "Destination country and the date you need the valves"],
+      "disclaimer": "Terms are explained in general. They do not replace engineering approval for your application."
     },
     "industries": {
       "title": "Industries",
@@ -195,17 +255,22 @@
       "title": "How Sourcing Works",
       "desc": "From requirement review to supply coordination. What happens after you send an enquiry.",
       "h1": "How sourcing works",
-      "lead": "One enquiry process, with a person reviewing at each stage. This is what happens after you submit.",
+      "lead": "One enquiry, with a person reviewing at each stage. This is what happens after you submit, from your side.",
       "steps": [
-        ["You send an enquiry", "Five required fields. Add technical details and files if you have them."],
-        ["Receipt is confirmed", "You receive a reference number once your enquiry is stored."],
-        ["We review the requirement", "We check technical completeness and ask for anything missing."],
-        ["We assess supply options", "We confirm whether a credible supply option exists for your requirement."],
-        ["Offer review", "Specifications, terms and delivery assumptions are reviewed by a person before an offer is sent."],
-        ["Follow-up and coordination", "We follow up on the offer and coordinate the process toward delivery."]
+        ["1. You send an enquiry", "Fill in the form. Five fields are required: your name, company, email, country and what you need. Technical details and files are optional, and you can submit with incomplete information."],
+        ["2. You receive a reference", "Once your enquiry is stored, the page shows a reference number and a confirmation email goes to the address you gave. If sending fails, your details stay in the form so you can retry without retyping."],
+        ["3. We review the requirement [pending approval]", "A person reads your enquiry and checks technical completeness. If something is missing, we write to you with specific questions. You do not need to chase."],
+        ["4. We assess supply options [pending approval]", "We confirm whether a credible supply option exists for your requirement, and check documents against the actual product."],
+        ["5. Offer review [pending approval]", "Specifications, terms and delivery assumptions are reviewed by a person before an offer is sent to you."],
+        ["6. You receive our response [pending approval]", "We send an offer, or tell you plainly if we cannot meet the requirement or need more information first."],
+        ["7. Follow-up and coordination [pending approval]", "We follow up on the offer. If you go ahead, we coordinate the process toward delivery and keep you informed."]
       ],
       "note": "No quotation is sent without human review. Timing depends on the request and is not promised on this site.",
-      "cta_h": "Start with your requirement"
+      "cta_h": "Start with your requirement",
+      "who_h": "Who contacts whom",
+      "who": ["You contact us once, through the form. You do not need to send several emails to start. [pending approval]", "After that, we contact you, normally by email at the address you gave. Tell us in the form if you prefer a phone call. [pending approval]", "If a question comes up, reply to the confirmation email and quote your reference.", "We do not contact third parties about your enquiry without telling you. [pending approval]"],
+      "after_h": "What the confirmation means",
+      "after_p": "The confirmation tells you that your enquiry was received and stored. It is not an offer, a price or a commitment to supply. A quotation follows only after review. [pending approval]"
     },
     "why": {
       "title": "Why Revalx",
@@ -317,5 +382,6 @@
     ["Supply options", "Assessed for your requirement."],
     ["Offer", "Reviewed before it is sent."]
   ],
-  "countries": ["Albania","Algeria","Argentina","Australia","Austria","Bahrain","Belgium","Brazil","Bulgaria","Canada","Chile","China","Colombia","Croatia","Cyprus","Czechia","Denmark","Egypt","Estonia","Finland","France","Germany","Ghana","Greece","Hungary","India","Indonesia","Ireland","Israel","Italy","Japan","Jordan","Kenya","Kuwait","Latvia","Lithuania","Luxembourg","Malta","Mexico","Morocco","Netherlands","Nigeria","Norway","Oman","Pakistan","Poland","Portugal","Qatar","Romania","Saudi Arabia","Serbia","Singapore","Slovakia","Slovenia","South Africa","Spain","Sweden","Switzerland","Tunisia","Turkey","United Arab Emirates","United Kingdom","United States","Other"]
+  "countries": ["Albania", "Algeria", "Argentina", "Australia", "Austria", "Bahrain", "Belgium", "Brazil", "Bulgaria", "Canada", "Chile", "China", "Colombia", "Croatia", "Cyprus", "Czechia", "Denmark", "Egypt", "Estonia", "Finland", "France", "Germany", "Ghana", "Greece", "Hungary", "India", "Indonesia", "Ireland", "Israel", "Italy", "Japan", "Jordan", "Kenya", "Kuwait", "Latvia", "Lithuania", "Luxembourg", "Malta", "Mexico", "Morocco", "Netherlands", "Nigeria", "Norway", "Oman", "Pakistan", "Poland", "Portugal", "Qatar", "Romania", "Saudi Arabia", "Serbia", "Singapore", "Slovakia", "Slovenia", "South Africa", "Spain", "Sweden", "Switzerland", "Tunisia", "Turkey", "United Arab Emirates", "United Kingdom", "United States", "Other"],
+  "nav_label": "Main"
 }
