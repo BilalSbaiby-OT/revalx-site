@@ -57,7 +57,7 @@ Reviewer: please correct the cells you disagree with. The site strings are in `s
 | Shut-off tightness | Dichtheit | estanqueidad de cierre | étanchéité à la fermeture |
 | Water hammer | Druckstoß | golpe de ariete | coup de bélier |
 | Opening (cracking) pressure | Öffnungsdruck | presión de apertura | pression d'ouverture |
-| Fire-safe | Brandsicher | resistente al fuego | coupe-feu (fire-safe) |
+| Fire-safe | Brandsicher | resistente al fuego | sécurité feu (fire-safe) |
 | Elastomer | Elastomer | elastómero | élastomère |
 | Soft seat | Weichdichtend | asiento blando | siège souple |
 | Metal seat | Metallisch dichtend | asiento metálico | siège métallique |
