@@ -1,0 +1,43 @@
+# Coolify "Docker Compose" application, base directory /rfq. The rfq service is routed by Traefik at
+# <host>/api/rfq (set the domain on the rfq service in Coolify). clamd has no public route.
+# /data (SQLite + uploaded files) is a named volume that nginx never mounts.
+services:
+  rfq:
+    build: .
+    restart: unless-stopped
+    environment:
+      - RFQ_SIGNING_KEY
+      - RFQ_PUBLIC_BASE_URL
+      - RFQ_REVIEWER_EMAIL
+      - RFQ_MAIL_FROM
+      - RFQ_DEFAULT_OWNER
+      - TURNSTILE_SECRET_KEY
+      - RESEND_API_KEY
+      - TELEGRAM_BOT_TOKEN
+      - TELEGRAM_CHAT_ID
+      - NOTION_TOKEN
+      - NOTION_DATABASE_ID
+      - CLAMD_HOST=clamd
+    volumes:
+      - rfq-data:/data
+    depends_on:
+      - clamd
+    mem_limit: 256m
+  clamd:
+    build:
+      context: .
+      dockerfile: Dockerfile.clamd
+    restart: unless-stopped
+    environment:
+      - CLAMAV_NO_FRESHCLAMD=false
+    volumes:
+      - clamav-db:/var/lib/clamav
+    healthcheck:
+      test: ["CMD-SHELL", "echo PING | nc -w2 127.0.0.1 3310 | grep -q PONG"]
+      interval: 30s
+      timeout: 5s
+      start_period: 300s
+    mem_limit: 1536m
+volumes:
+  rfq-data:
+  clamav-db:
