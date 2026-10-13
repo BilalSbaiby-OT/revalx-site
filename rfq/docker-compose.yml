@@ -24,12 +24,13 @@ services:
       - clamd
     mem_limit: 256m
   clamd:
-    image: clamav/clamav:1.4
+    build:
+      context: .
+      dockerfile: Dockerfile.clamd
     restart: unless-stopped
     environment:
       - CLAMAV_NO_FRESHCLAMD=false
     volumes:
-      - ./clamd.conf:/etc/clamav/clamd.conf:ro
       - clamav-db:/var/lib/clamav
     mem_limit: 1536m
 volumes:
