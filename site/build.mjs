@@ -58,10 +58,11 @@ function build(lang) {
 <body>
 <a class="skip" href="#main">${esc(t.skip)}</a>
 <div class="preview-bar" role="note"><div class="wrap">${rich(t.preview_banner)}</div></div>
+${t.draft_banner ? `<div class="draft-bar" role="note"><div class="wrap">${esc(t.draft_banner)}</div></div>` : ''}
 <header class="site-header"><div class="wrap header-in">
 <a class="wordmark" href="${base}" aria-label="REVALX"><span class="wm-mark" aria-hidden="true"></span>${esc(t.brand)}</a>
 <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">${esc(t.menu)}</button>
-<nav id="site-nav" class="site-nav" aria-label="Main"><ul>${nav}</ul>${switcher}<a class="btn btn-primary btn-sm" href="${href('rfq')}">${esc(t.cta_primary)}</a></nav>
+<nav id="site-nav" class="site-nav" aria-label="${esc(t.nav_label || 'Main')}"><ul>${nav}</ul>${switcher}<a class="btn btn-primary btn-sm" href="${href('rfq')}">${esc(t.cta_primary)}</a></nav>
 </div></header>
 <main id="main">
 ${body}
@@ -135,13 +136,15 @@ ${closing(h.closing_h, h.closing_p)}`);
 <section class="band"><div class="wrap two">
   <div class="prodcol">
     <div class="prod-ico">${ICONS[v]}</div>
-    <h2>${rich(p.apps_h)}</h2><ul class="list">${p.apps.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+    <h2>${esc(pc.how_h)}</h2><p>${esc(p.how)}</p>
+    <h2 class="mt">${esc(pc.variants_h)}</h2><dl class="defs">${p.variants.map(([k, d]) => `<dt>${esc(k)}</dt><dd>${esc(d)}</dd>`).join('')}</dl>
+    <h2 class="mt">${rich(p.apps_h)}</h2><ul class="list">${p.apps.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
     <h2 class="mt">${rich(p.consider_h)}</h2><ul class="list">${p.consider.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
   </div>
   <div class="sheet"><p class="sheet-tag">RFQ</p><h2>${esc(pc.need_h)}</h2>${specTable(pc.need_rows, pc.need_h)}<p class="sheet-note">${esc(pc.need_note)}</p>${cta('stack')}</div>
 </div></section>
-<section class="band band-grey"><div class="wrap"><p class="fine">${esc(pc.disclaimer)}</p>
-<h2>${esc(pc.all_h)}</h2><ul class="chips">${VALVES.filter(x => x !== v).map(x => `<li><a href="${href(x)}">${esc(P[x].h1)}</a></li>`).join('')}</ul></div></section>`);
+<section class="band band-grey"><div class="wrap"><h2>${esc(pc.std_h)}</h2><p class="notice">${esc(p.standards)} ${esc(pc.std_ask)}</p><p class="fine">${esc(pc.disclaimer)}</p>
+<h2>${esc(pc.all_h)}</h2><ul class="chips">${VALVES.filter(x => x !== v).map(x => `<li><a href="${href(x)}">${esc(P[x].h1)}</a></li>`).join('')}</ul></div></section>${closing(P.home.closing_h, P.home.closing_p)}`);
   }
 
   // ---------- Technical Supply ----------
@@ -149,7 +152,11 @@ ${closing(h.closing_h, h.closing_p)}`);
   add('technical', `${hero(te.h1, te.lead)}
 <section class="band"><div class="wrap two">
   <div><h2>${esc(te.guide_h)}</h2>${specTable(te.guide_rows, te.guide_h)}</div>
-  <div><h2>${esc(te.notes_h)}</h2><p>${esc(te.notes_p)}</p><h2 class="mt">${esc(te.limits_h)}</h2><p>${esc(te.limits_p)}</p>${cta('stack')}</div>
+  <div><h2>${esc(te.notes_h)}</h2><p>${esc(te.notes_p)}</p><h2 class="mt">${esc(te.nodata_h)}</h2><p>${esc(te.nodata_p)}</p><h2 class="mt">${esc(te.limits_h)}</h2><p>${esc(te.limits_p)}</p>${cta('stack')}</div>
+</div></section>
+<section class="band band-grey"><div class="wrap two">
+  <div><h2>${esc(te.terms_h)}</h2>${specTable(te.terms_rows, te.terms_h)}</div>
+  <div><h2>${esc(te.checklist_h)}</h2><ul class="list">${te.checklist.map(x => `<li>${esc(x)}</li>`).join('')}</ul><p class="fine">${esc(te.disclaimer)}</p></div>
 </div></section>`);
 
   // ---------- Industries ----------
@@ -161,7 +168,7 @@ ${closing(h.closing_h, h.closing_p)}`);
   // ---------- Process ----------
   const pp = P.process;
   add('process', `${hero(pp.h1, pp.lead)}
-<section class="band"><div class="wrap narrow"><ol class="steps">${pp.steps.map(([k, v]) => `<li><h2>${esc(k)}</h2><p>${esc(v)}</p></li>`).join('')}</ol><p class="notice">${esc(pp.note)}</p></div></section>${closing(pp.cta_h, P.home.closing_p)}`);
+<section class="band"><div class="wrap narrow"><ol class="steps">${pp.steps.map(([k, v]) => `<li><h2>${rich(k)}</h2><p>${rich(v)}</p></li>`).join('')}</ol><h2 class="mt">${esc(pp.who_h)}</h2><ul class="list">${pp.who.map(x => `<li>${rich(x)}</li>`).join('')}</ul><h2 class="mt">${esc(pp.after_h)}</h2><p>${rich(pp.after_p)}</p><p class="notice">${esc(pp.note)}</p></div></section>${closing(pp.cta_h, P.home.closing_p)}`);
 
   // ---------- Why ----------
   const w = P.why;
@@ -184,6 +191,8 @@ ${closing(h.closing_h, h.closing_p)}`);
 ${hint ? `<p class="hint" id="h-${name}">${esc(hint)}</p>` : ''}
 <input id="f-${name}" name="${name}" type="${type}"${req ? ' required' : ''}${ac ? ` autocomplete="${ac}"` : ''} aria-describedby="${hint ? `h-${name} ` : ''}e-${name}"${name === 'email' ? ' inputmode="email"' : ''}>
 <p class="err" id="e-${name}" role="alert"></p></div>`;
+  // Option value stays English (what the tracker receives); label is localised and sorted per locale.
+  const countryOptions = strings[DEFAULT].countries.map((en, i) => [en, t.countries[i]]).sort((x, y) => (x[0] === 'Other') - (y[0] === 'Other') || x[1].localeCompare(y[1], lang)).map(([en, loc]) => `<option value="${esc(en)}">${esc(loc)}</option>`).join('');
   const rfqBody = `${hero(rp.h1, rp.lead)}
 <section class="band"><div class="wrap rfq-grid">
 <div class="rfq-main">
@@ -196,7 +205,7 @@ ${hint ? `<p class="hint" id="h-${name}">${esc(hint)}</p>` : ''}
 <div class="row2">${fld('name', r.name, { req: true, ac: 'name' })}${fld('company', r.company, { req: true, ac: 'organization' })}</div>
 <div class="row2">${fld('email', r.email, { type: 'email', req: true, ac: 'email' })}
 <div class="field" data-field="country"><label for="f-country">${esc(r.country)} <span class="tag tag-req">${esc(r.required)}</span></label>
-<select id="f-country" name="country" required autocomplete="country-name" aria-describedby="e-country"><option value="">—</option>${t.countries.map(x => `<option>${esc(x)}</option>`).join('')}</select><p class="err" id="e-country" role="alert"></p></div></div>
+<select id="f-country" name="country" required autocomplete="country-name" aria-describedby="e-country"><option value="">—</option>${countryOptions}</select><p class="err" id="e-country" role="alert"></p></div></div>
 ${fld('phone', r.phone, { type: 'tel', ac: 'tel' })}
 </fieldset>
 <fieldset id="need"><legend>${esc(r.g_need)}</legend>

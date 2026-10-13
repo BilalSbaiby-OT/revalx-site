@@ -25,6 +25,7 @@ mark.pending{background:var(--warn-bg);color:var(--warn-fg);font-size:var(--f-sm
 
 .preview-bar{background:var(--warn-bg);color:var(--warn-fg);font-size:var(--f-sm);padding:var(--s2) 0;border-bottom:1px solid #e3c96a}
 .preview-bar mark{background:none;padding:0;font-size:inherit}
+.draft-bar{background:var(--navy);color:#fff;font-size:var(--f-sm);font-weight:600;padding:var(--s2) 0}
 
 /* header */
 .site-header{background:var(--white);border-bottom:1px solid var(--g100);position:sticky;top:0;z-index:50}
