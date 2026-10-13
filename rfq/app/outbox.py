@@ -64,6 +64,8 @@ def run_task(c, task):
     if kind == "telegram":
         return integrations.telegram_new(enq, data, len(clean))
     if kind == "notion":
+        if not (config.NOTION_TOKEN and config.NOTION_DATABASE_ID):
+            return "defer"  # Notion not set up yet: keep the row queued, no failure count, no alert
         return integrations.notion_row(enq, data, len(clean))
     raise RuntimeError(f"unknown kind {kind}")
 
