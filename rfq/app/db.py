@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS enquiries (
   owner TEXT NOT NULL,
   data TEXT NOT NULL,
   stage TEXT NOT NULL DEFAULT 'New',
-  closed_at INTEGER
+  closed_at INTEGER,
+  is_test INTEGER NOT NULL DEFAULT 0
 );
 CREATE INDEX IF NOT EXISTS enq_fp ON enquiries(fingerprint, created_at);
 CREATE TABLE IF NOT EXISTS counters (year INTEGER PRIMARY KEY, n INTEGER NOT NULL);
@@ -49,6 +50,11 @@ CREATE TABLE IF NOT EXISTS failures (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   at INTEGER NOT NULL, enquiry_id TEXT, kind TEXT, attempt INTEGER, error TEXT
 );
+CREATE TABLE IF NOT EXISTS audit (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  at INTEGER NOT NULL, enquiry_id TEXT NOT NULL, action TEXT NOT NULL,
+  old_stage TEXT, new_stage TEXT, old_owner TEXT, new_owner TEXT, is_test INTEGER, reason TEXT
+);
 CREATE TABLE IF NOT EXISTS spam_log (id INTEGER PRIMARY KEY AUTOINCREMENT, at INTEGER NOT NULL, reason TEXT NOT NULL);
 """
 
@@ -71,6 +77,8 @@ def init():
     os.makedirs(config.FILES_DIR, exist_ok=True)
     c = connect()
     c.executescript(SCHEMA)
+    if "is_test" not in {r["name"] for r in c.execute("PRAGMA table_info(enquiries)")}:
+        c.execute("ALTER TABLE enquiries ADD COLUMN is_test INTEGER NOT NULL DEFAULT 0")
     c.close()
 
 

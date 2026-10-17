@@ -1,10 +1,12 @@
-"""Operator commands:  python -m app.cli status | list | show ID | retry [ID|--all] [--kind K] | links ID | purge-due"""
+"""Operator commands:  python -m app.cli status | list | show ID | close ID --stage S --reason T [--owner X] [--test] | retry [ID|--all] [--kind K] | links ID | purge-due"""
 import argparse
 import json
 import sys
 import time
 
 from . import db, outbox, signing
+
+STAGES = ("Quoted", "Won", "Lost", "Disqualified")
 
 
 def fmt(ts):
@@ -17,6 +19,8 @@ def main(argv=None):
     sub.add_parser("status")
     sub.add_parser("list")
     p = sub.add_parser("show"); p.add_argument("id")
+    p = sub.add_parser("close"); p.add_argument("id"); p.add_argument("--stage", required=True, choices=STAGES)
+    p.add_argument("--reason", required=True); p.add_argument("--owner"); p.add_argument("--test", action="store_true", help="mark as a test enquiry (excluded from activation counts)")
     p = sub.add_parser("retry"); p.add_argument("id", nargs="?"); p.add_argument("--all", action="store_true"); p.add_argument("--kind")
     p = sub.add_parser("links"); p.add_argument("id"); p.add_argument("--days", type=int, default=7)
     sub.add_parser("process")
@@ -26,15 +30,16 @@ def main(argv=None):
 
     if a.cmd == "status":
         n = c.execute("SELECT COUNT(*) FROM enquiries").fetchone()[0]
-        print(f"enquiries stored: {n}")
+        t = c.execute("SELECT COUNT(*) FROM enquiries WHERE is_test=1").fetchone()[0]
+        print(f"enquiries stored: {n} ({t} test, excluded from activation counts: real={n - t})")
         for r in c.execute("SELECT kind, status, COUNT(*) n, MAX(attempts) att FROM outbox GROUP BY kind, status ORDER BY kind, status"):
             print(f"  {r['kind']:15} {r['status']:8} {r['n']:4} (max attempts {r['att']})")
         print("not done:")
         for r in c.execute("SELECT * FROM outbox WHERE status!='done' ORDER BY id"):
             print(f"  {r['enquiry_id']} {r['kind']} attempts={r['attempts']} next={fmt(r['next_at'])} err={r['last_error']}")
     elif a.cmd == "list":
-        for r in c.execute("SELECT enquiry_id, created_at, lang, stage, json_extract(data,'$.company') co, json_extract(data,'$.country') ct FROM enquiries ORDER BY id DESC LIMIT 50"):
-            print(f"{r['enquiry_id']}  {fmt(r['created_at'])}  {r['lang']}  {r['stage']:8} {r['co']} ({r['ct']})")
+        for r in c.execute("SELECT enquiry_id, created_at, lang, stage || CASE WHEN is_test THEN ' [test]' ELSE '' END AS stage, json_extract(data,'$.company') co, json_extract(data,'$.country') ct FROM enquiries ORDER BY id DESC LIMIT 50"):
+            print(f"{r['enquiry_id']}  {fmt(r['created_at'])}  {r['lang']}  {r['stage']:18} {r['co']} ({r['ct']})")
     elif a.cmd == "show":
         r = c.execute("SELECT * FROM enquiries WHERE enquiry_id=?", (a.id,)).fetchone()
         if not r:
@@ -42,6 +47,18 @@ def main(argv=None):
         print(json.dumps({**dict(r), "data": json.loads(r["data"])}, indent=2, ensure_ascii=False))
         for t in c.execute("SELECT kind,status,attempts,last_error,done_at FROM outbox WHERE enquiry_id=?", (a.id,)):
             print(dict(t))
+    elif a.cmd == "close":
+        now = int(time.time())
+        with db.tx() as t:
+            r = t.execute("SELECT stage, owner, is_test FROM enquiries WHERE enquiry_id=?", (a.id,)).fetchone()
+            if not r:
+                sys.exit("not found")
+            owner = a.owner or r["owner"]
+            test = 1 if a.test else r["is_test"]
+            t.execute("UPDATE enquiries SET stage=?, owner=?, closed_at=?, is_test=? WHERE enquiry_id=?", (a.stage, owner, now, test, a.id))
+            t.execute("INSERT INTO audit(at, enquiry_id, action, old_stage, new_stage, old_owner, new_owner, is_test, reason) VALUES(?,?,?,?,?,?,?,?,?)",
+                      (now, a.id, "close", r["stage"], a.stage, r["owner"], owner, test, a.reason))
+        print(f"{a.id}: {r['stage']} -> {a.stage}, owner {owner}, closed_at {fmt(now)}, is_test={test}; audit written")
     elif a.cmd == "retry":
         if not (a.id or a.all):
             sys.exit("give an enquiry id or --all")
