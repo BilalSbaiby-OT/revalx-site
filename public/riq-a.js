@@ -10,7 +10,7 @@
   var internal = false;
   try { internal = localStorage.getItem("riq_internal") === "1" || /(?:^|;\s*)riq_internal=1/.test(document.cookie); } catch (e) {}  // team browsers (read only)
   var off = !key || internal || navigator.doNotTrack === "1" || window.doNotTrack === "1" || navigator.msDoNotTrack === "1" || navigator.globalPrivacyControl === true;
-  var EVENTS = { check_started: 1, check_finished: 1, signup: 1, checkout_started: 1, paid: 1, mock_started: 1, mock_finished: 1, checkout_completed: 1, cta_click: 1 };
+  var EVENTS = { check_started: 1, check_finished: 1, signup: 1, checkout_started: 1, paid: 1, mock_started: 1, mock_finished: 1, checkout_completed: 1, cta_click: 1, rfq_started: 1, rfq_submitted: 1 };
   var URL_ = (s && s.getAttribute("data-endpoint")) || "https://eu.i.posthog.com/i/v0/e/";  // same-origin relay (/riq-e) so blockers do not drop it and CSP stays connect-src self
   function base() {
     var q = new URLSearchParams(location.search), p = {
@@ -39,6 +39,12 @@
   function route() { if (location.pathname !== last) { last = location.pathname; send("$pageview"); } }
   ["pushState", "replaceState"].forEach(function (m) { var o = history[m]; history[m] = function () { var r = o.apply(this, arguments); route(); return r; }; });
   addEventListener("popstate", route);
+  // primary calls to action: mark the button with data-cta="primary" (optional data-cta-id="hero"); one delegated listener, no query text or link targets sent
+  document.addEventListener("click", function (e) {
+    var el = e.target && e.target.closest && e.target.closest("[data-cta]");
+    if (site === "revalx" && e.target.closest("a[href^='mailto:']")) send("rfq_started", { via: "mailto" });  // the quote request is a mailto link until the RFQ form ships
+    if (el) send("cta_click", { cta: el.getAttribute("data-cta"), cta_id: el.getAttribute("data-cta-id") || undefined });
+  }, true);
   // payment links and Stripe buy buttons: the click is the checkout start
   document.addEventListener("click", function (e) {
     var a = e.target && e.target.closest && e.target.closest("a[href]");
@@ -49,6 +55,7 @@
     citedby: [["POST", /^\/api\/(snapshot|check)$/, "check_started", 0, 1], ["POST", /^\/api\/check$/, "check_finished"], ["GET", /^\/api\/snapshot\/[\w-]+$/, "check_finished", "done"],
               ["POST", /^\/api\/(account\/link|request)$/, "signup"], ["POST", /^\/api\/(order|checkout)$/, "checkout_started", 0, 1]],
     hexaciv: [["POST", /^\/api\/mock\/start$/, "mock_started"], ["POST", /^\/api\/mock\/\d+\/submit$/, "mock_finished"], ["POST", /^\/api\/checkout$/, "checkout_started"]],
+    revalx: [["POST", /^\/api\/rfq$/, "rfq_submitted"]],
     civiqpass: [["POST", /^\/api\/mock\/start$/, "mock_started"], ["POST", /^\/api\/mock\/\d+\/submit$/, "mock_finished"]]
   }[site];
   if (RULES && window.fetch) {
